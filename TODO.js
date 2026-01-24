@@ -1,22 +1,27 @@
-let TodoList = [];
+//  Load todos from LocalStorage (IMPORTANT)
+let TodoList = JSON.parse(localStorage.getItem("todos")) || [];
 displayItems();
 
 function addTodo() {
-    let inputElement = document.querySelector("#Todo-input")
-    let dataElement = document.querySelector("#Todo-Date")
+    let inputElement = document.querySelector("#Todo-input");
+    let dataElement = document.querySelector("#Todo-Date");
+
     let TodoItems = inputElement.value;
     let TodoDate = dataElement.value;
-    //TodoList.push({items : TodoItems, duedate: TodoDate});
-    // inputElement.value = '';
-    // dataElement.value = '';
-    //displayItems() 
 
-    //date format change
+    if (TodoItems === "" || TodoDate === "") {
+        alert("Please enter todo and date");
+        return;
+    }
 
+    //  Date format change
     let [year, month, day] = TodoDate.split("-");
     let formattedDate = `${day}-${month}-${year}`;
 
     TodoList.push({ items: TodoItems, duedate: formattedDate });
+
+    // Save to LocalStorage
+    localStorage.setItem("todos", JSON.stringify(TodoList));
 
     inputElement.value = '';
     dataElement.value = '';
@@ -24,20 +29,31 @@ function addTodo() {
 }
 
 function displayItems() {
-    let ContainerElement = document.querySelector(".Todo-Container")
+    let ContainerElement = document.querySelector(".Todo-Container");
     let newHtml = "";
-    // displayElement.innerText = "";
-    for(let i = 0; i < TodoList.length; i++) {
-        // let items = TodoList[i].items;
-        // let duedate = TodoList[i].duedate;
 
-        let {items ,duedate} = TodoList[i];
-    newHtml += `
-        <span>${items}</span>
-        <span id="date">${duedate}</span>
-        <button class="btn-delete" onclick ="TodoList.splice(${i}, 1); displayItems();">Delete</button>
-    `;
-    //   displayElement.innerText =  displayElement.innerText + "\n" + TodoList[i];
+    for (let i = 0; i < TodoList.length; i++) {
+        let { items, duedate } = TodoList[i];
+
+        newHtml += `
+            <span>${items}</span>
+            <span id="date">${duedate}</span>
+            <button class="btn-delete"
+                onclick="deleteTodo(${i})">
+                Delete
+            </button>
+        `;
     }
+
     ContainerElement.innerHTML = newHtml;
+}
+
+// 🔹 Delete with LocalStorage update
+function deleteTodo(index) {
+    TodoList.splice(index, 1);
+
+    // Save updated list
+    localStorage.setItem("todos", JSON.stringify(TodoList));
+
+    displayItems();
 }
