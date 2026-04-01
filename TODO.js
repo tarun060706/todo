@@ -1,14 +1,20 @@
 //  Load todos from LocalStorage (IMPORTANT)
 let TodoList = JSON.parse(localStorage.getItem("todos")) || [];
-displayItems();
+document.addEventListener("DOMContentLoaded", () => {
+    let addButton = document.querySelector("#add-btn");
+    if (addButton) {
+        addButton.addEventListener("click", addTodo);
+    }
+    displayItems();
+});
 
 function escapeHTML(value) {
     return value
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
 function addTodo() {
@@ -21,7 +27,7 @@ function addTodo() {
     let TodoTime = timeElement.value;
 
     if (TodoItems === "" || TodoDate === "" || TodoTime === "") {
-        alert("Please enter todo and date");
+        alert("Please enter todo, date and time");
         return;
     }
 
