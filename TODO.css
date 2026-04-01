@@ -1,49 +1,111 @@
-body{
-    font-family: Arial;
+* {
+    box-sizing: border-box;
 }
+
+body {
+    margin: 0;
+    padding: 16px;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+}
+
+.app {
+    width: min(100%, 900px);
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
 #h1 {
-   text-align: center;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 14px;
 }
 
-.grid-container {
-   display: grid;
-   grid-template-columns: 200px 150px 100px;
-   column-gap: 10px;
-   row-gap: 10px;
-   margin-top: 10px;
-   align-items: center;
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
-#Todo-input,#Todo-Date {
-    font-size: 15px;
-    padding: 10px 5px;
+#Todo-input,
+#Todo-Date,
+#Todo-Time {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 10px;
+    border: 1px solid #d2d6dc;
+    border-radius: 10px;
 }
 
+.btn-todo,
 .btn-delete {
-    background-color: rgb(87, 4, 4);
-    color: white;
     border: none;
     border-radius: 10px;
-    padding: 15px 0px;
+    color: #ffffff;
+    padding: 12px 14px;
+    font-size: 15px;
+    cursor: pointer;
 }
 
 .btn-todo {
     background-color: rgb(11, 65, 5);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 15px 0px;
 }
 
-/*responsive*/
+.btn-delete {
+    background-color: rgb(87, 4, 4);
+}
 
-@media (max-width: 600px) {
-    .grid-container {
-        grid-template-columns: 1fr;
+.Todo-Container {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+}
+
+.todo-item {
+    display: grid;
+    gap: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f9fafb;
+}
+
+.todo-text {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-size: 16px;
+}
+
+.todo-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #374151;
+    font-size: 14px;
+}
+
+.empty-state {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    color: #6b7280;
+}
+
+@media (min-width: 720px) {
+    .form-grid {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+        align-items: center;
     }
 
-    .btn-todo,
-    .btn-delete {
-        width: 100%;
+    .todo-item {
+        grid-template-columns: minmax(0, 2fr) 1fr auto;
+        align-items: center;
+    }
+
+    .todo-meta {
+        justify-content: center;
     }
 }
