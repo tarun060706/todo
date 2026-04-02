@@ -1,21 +1,6 @@
 //  Load todos from LocalStorage (IMPORTANT)
 let TodoList = JSON.parse(localStorage.getItem("todos")) || [];
-document.addEventListener("DOMContentLoaded", () => {
-    let addButton = document.querySelector("#add-btn");
-    if (addButton) {
-        addButton.addEventListener("click", addTodo);
-    }
-    displayItems();
-});
-
-function escapeHTML(value) {
-    return value
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-}
+displayItems();
 
 function addTodo() {
     let inputElement = document.querySelector("#Todo-input");
@@ -27,7 +12,7 @@ function addTodo() {
     let TodoTime = timeElement.value;
 
     if (TodoItems === "" || TodoDate === "" || TodoTime === "") {
-        alert("Please enter todo, date and time");
+        alert("Please enter todo and date");
         return;
     }
 
@@ -35,7 +20,7 @@ function addTodo() {
     let [year, month, day] = TodoDate.split("-");
     let formattedDate = `${day}-${month}-${year}`;
 
-    TodoList.push({ items: TodoItems, duedate: formattedDate, time: TodoTime});
+    TodoList.push({ items: TodoItems, duedate: formattedDate, time: TodoTime });
 
     // Save to LocalStorage
     localStorage.setItem("todos", JSON.stringify(TodoList));
@@ -48,29 +33,19 @@ function addTodo() {
 
 function displayItems() {
     let ContainerElement = document.querySelector(".Todo-Container");
-
-    if (TodoList.length === 0) {
-        ContainerElement.innerHTML = '<p class="empty-state">No todos yet. Add your first task.</p>';
-        return;
-    }
-
     let newHtml = "";
 
     for (let i = 0; i < TodoList.length; i++) {
         let { items, duedate, time } = TodoList[i];
-        let safeItems = escapeHTML(items);
-        let safeDate = escapeHTML(duedate);
-        let safeTime = escapeHTML(time);
 
         newHtml += `
-            <div class="todo-item">
-                <p class="todo-text">${safeItems}</p>
-                <div class="todo-meta">
-                    <span>${safeDate}</span>
-                    <span>${safeTime}</span>
-                </div>
-                <button class="btn-delete" onclick="deleteTodo(${i})">Delete</button>
-            </div>
+            <span>${items}</span>
+            <span id="date">${duedate}</span>
+            <span id="time">${time}</span>
+            <button class="btn-delete"
+                onclick="deleteTodo(${i})">
+                Delete
+            </button>
         `;
     }
 
